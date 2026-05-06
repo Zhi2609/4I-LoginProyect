@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frontend Login Project</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form id="signup-form">
+      <h2>Registro</h2>
+      <label for="signup-username">Usuario</label>
+      <input type="text" id="signup-username" required />
+
+      <label for="signup-password">Password</label>
+      <input type="password" id="signup-password" required />
+
+      <label for="signup-password-repeat">Repetir Password</label>
+      <input type="password" id="signup-password-repeat" required />
+
+      <button type="submit">Registrarse</button>
+    </form>
+
+    <form id="login-form">
+      <h2>Iniciar Sesión</h2>
+      <label for="login-username">Usuario</label>
+      <input type="text" id="login-username" required />
+
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" required />
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <button id="secret-btn" class="secret-btn">Consultar Ruta Secreta</button>
+
+    <script>
+      let authToken = null;
+      const API_URL = "http://localhost:3000/api";
+
+      document
+        .getElementById("signup-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const username = document.getElementById("signup-username").value;
+          const password = document.getElementById("signup-password").value;
+          const password_repeat = document.getElementById(
+            "signup-password-repeat",
+          ).value;
+
+          try {
+            const response = await fetch(`${API_URL}/sign-up`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ username, password, password_repeat }),
+            });
+
+            const data = await response.json();
+            alert(data.message || "Respuesta recibida");
+            console.log("Respuesta Sign-up:", data);
+          } catch (error) {
+            console.error("Error en el registro:", error);
+          }
+        });
+
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const username = document.getElementById("login-username").value;
+          const password = document.getElementById("login-password").value;
+
+          try {
+            const response = await fetch(`${API_URL}/login`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ username, password }),
+            });
+
+            const data = await response.json();
+
+            console.log("Respuesta Login:", data);
+
+            if (response.ok) {
+              alert("Login exitoso. Token guardado en memoria.");
+              authToken = data.token;
+            } else {
+              alert(`Error: ${data.message}`);
+            }
+          } catch (error) {
+            console.error("Error en el login:", error);
+          }
+        });
+
+      document
+        .getElementById("secret-btn")
+        .addEventListener("click", async () => {
+          if (!authToken) {
+            alert("Primero debes hacer login para obtener un token.");
+            return;
+          }
+
+          try {
+            const response = await fetch(`${API_URL}/secret-route`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            });
+
+            const data = await response.json();
+            console.log("Respuesta Ruta Secreta:", data);
+            alert(
+              `Mensaje de la ruta secreta: ${data.message || "Consulta exitosa"}`,
+            );
+          } catch (error) {
+            console.error("Error en ruta secreta:", error);
+          }
+        });
+    </script>
+  </body>
+</html>

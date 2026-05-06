@@ -1,7 +1,9 @@
 # 4I-LoginProyect
 # File Tree
 
-**Generated:** 30/4/2026, 8:47:14 a.m.
+**Generated:** 6/5/2026, 10:53:47 a.m.
+
+---
 
 ```
 ├── 📁 backend
@@ -11,12 +13,13 @@
 │   │   └── 📄 users.js
 │   ├── 📁 routers
 │   │   └── 📄 routers.js
-│   ├── ⚙️ .gitattributes
-│   ├── ⚙️ .gitignore
 │   ├── 📄 index.js
-│   ├── ⚙️ package-lock.json
 │   └── ⚙️ package.json
-└── 📁 frontend
+├── 📁 frontend
+│   ├── 🌐 index.html
+│   └── 🎨 style.css
+├── ⚙️ .gitattributes
+├── ⚙️ .gitignore
+└── 📝 README.md
 ```
-
 ---
