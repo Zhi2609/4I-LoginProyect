@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../lib/db.js');
 const userMiddleware = require('../middleware/users.js');
 
-router.post('sign-up', userMiddleware.validateRegister, (req, res, next) => {
+router.post('/sign-up', userMiddleware.validateRegister, (req, res, next) => {
       db.query(
     'SELECT id FROM users WHERE LOWER(username) = LOWER(?)',
     [req.body.username],
