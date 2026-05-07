@@ -11,4 +11,7 @@ app.use(cors());
 const router = require('./routers/routers.js');
 app.use('/api', router);
 
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../frontend')));
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
